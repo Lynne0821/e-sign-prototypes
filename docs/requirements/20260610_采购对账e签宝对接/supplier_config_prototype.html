@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>供应商签署配置 - 交付系统</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1890ff',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-100 font-sans antialiased text-gray-800">
+
+<!-- Layout -->
+<div class="flex h-screen overflow-hidden">
+    
+    <!-- Sidebar -->
+    <aside class="w-64 bg-gray-900 text-white flex flex-col">
+        <div class="h-16 flex items-center justify-center border-b border-gray-800 text-xl font-bold tracking-widest">
+            交付系统
+        </div>
+        <nav class="flex-1 overflow-y-auto py-4">
+            <ul class="space-y-1">
+                <li>
+                    <a href="purchase_order_prototype.html" class="flex items-center px-6 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors">
+                        <i class="fas fa-file-contract mr-3 w-5 text-center"></i>
+                        采购单签署管理
+                    </a>
+                </li>
+                <li>
+                    <a href="statement_order_prototype.html" class="flex items-center px-6 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors">
+                        <i class="fas fa-file-invoice-dollar mr-3 w-5 text-center"></i>
+                        对账单签署管理
+                    </a>
+                </li>
+                <li>
+                    <a href="supplier_config_prototype.html" class="flex items-center px-6 py-3 bg-primary text-white hover:bg-blue-600 transition-colors">
+                        <i class="fas fa-users-cog mr-3 w-5 text-center"></i>
+                        供应商签署配置
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col overflow-hidden relative">
+        
+        <!-- Top Navbar -->
+        <header class="h-16 bg-white shadow-sm flex items-center justify-between px-6 z-10">
+            <h1 class="text-lg font-medium text-gray-800">供应商签署配置</h1>
+            <div class="flex items-center space-x-4">
+                <span class="text-sm text-gray-500">欢迎您，运营/采购员</span>
+                <img src="https://ui-avatars.com/api/?name=Admin&background=1890ff&color=fff" alt="Avatar" class="w-8 h-8 rounded-full">
+            </div>
+        </header>
+
+        <!-- Content Area -->
+        <main class="flex-1 overflow-y-auto p-6">
+            
+            <!-- Information Banner -->
+            <div class="bg-blue-50 border border-blue-200 text-blue-800 rounded-md p-4 mb-6 flex items-start">
+                <i class="fas fa-info-circle mt-0.5 mr-3 text-primary"></i>
+                <div class="text-sm">
+                    <p class="font-medium mb-1">系统说明</p>
+                    <p class="text-gray-600">此模块用于维护供应商在 e签宝 签署流转时的默认签署人信息。为确保单据可以自动触发签署，必须保证此处的“联系电话”准确有效。系统在单据自动发起签署时会验证此表。</p>
+                </div>
+            </div>
+
+            <!-- Search Filter Card -->
+            <div class="bg-white rounded-lg shadow-sm p-5 mb-6">
+                <form class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    
+                    <div class="flex flex-col">
+                        <label class="text-sm text-gray-600 mb-1">供应商名称</label>
+                        <input type="text" placeholder="请输入供应商全称或关键字" class="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary">
+                    </div>
+                    
+                    <div class="flex flex-col">
+                        <label class="text-sm text-gray-600 mb-1">签署人</label>
+                        <input type="text" placeholder="请输入签署人姓名" class="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary">
+                    </div>
+
+                    <div class="flex flex-col">
+                        <label class="text-sm text-gray-600 mb-1">联系电话</label>
+                        <input type="text" placeholder="请输入手机号码" class="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary">
+                    </div>
+
+                    <div class="flex items-end space-x-3 mt-2">
+                        <button type="button" class="px-4 py-2 border border-gray-300 rounded-md text-sm text-gray-600 hover:bg-gray-50 transition-colors">重置</button>
+                        <button type="button" class="px-4 py-2 bg-primary text-white rounded-md text-sm hover:bg-blue-600 transition-colors shadow-sm">
+                            <i class="fas fa-search mr-1"></i> 查询
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Toolbar -->
+            <div class="flex justify-between items-center mb-4">
+                <div class="space-x-2">
+                    <button class="px-4 py-2 bg-primary text-white rounded-md text-sm hover:bg-blue-600 transition-colors shadow-sm" onclick="openModal('add')">
+                        <i class="fas fa-plus mr-1"></i> 新增配置
+                    </button>
+                    <button class="px-4 py-2 border border-gray-300 text-gray-700 rounded-md text-sm hover:bg-gray-50 transition-colors shadow-sm">
+                        <i class="fas fa-file-import mr-1"></i> 批量导入
+                    </button>
+                    <button class="px-4 py-2 border border-gray-300 text-gray-700 rounded-md text-sm hover:bg-gray-50 transition-colors shadow-sm">
+                        <i class="fas fa-file-export mr-1"></i> 导出配置
+                    </button>
+                </div>
+                <div class="text-sm text-gray-500">
+                    共检索到 <span class="font-bold text-primary">5</span> 个配置项
+                </div>
+            </div>
+
+            <!-- Data Table Card -->
+            <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200 text-sm text-left">
+                        <thead class="bg-gray-50 text-gray-600 font-medium">
+                            <tr>
+                                <th class="px-6 py-4 w-12 text-center">序号</th>
+                                <th class="px-6 py-4">供应商名称</th>
+                                <th class="px-6 py-4">签署人</th>
+                                <th class="px-6 py-4">联系电话</th>
+                                <th class="px-6 py-4">邮箱</th>
+                                <th class="px-6 py-4">更新时间</th>
+                                <th class="px-6 py-4">操作人</th>
+                                <th class="px-6 py-4 text-center">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 bg-white">
+                            
+                            <!-- Row 1 -->
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-6 py-4 text-center text-gray-500">1</td>
+                                <td class="px-6 py-4 font-medium text-gray-800">深圳市创达鑫电子有限公司</td>
+                                <td class="px-6 py-4">张伟</td>
+                                <td class="px-6 py-4 font-mono">13800138000</td>
+                                <td class="px-6 py-4">zhangwei@chuangdaxin.com</td>
+                                <td class="px-6 py-4 text-gray-500">2026-06-08 14:30</td>
+                                <td class="px-6 py-4">系统管理员</td>
+                                <td class="px-6 py-4 text-center space-x-3">
+                                    <button class="text-primary hover:text-blue-700 font-medium" onclick="openModal('edit')"><i class="fas fa-edit"></i> 编辑</button>
+                                    <button class="text-red-500 hover:text-red-700 font-medium" onclick="confirmDelete()"><i class="fas fa-trash-alt"></i> 删除</button>
+                                </td>
+                            </tr>
+                            
+                            <!-- Row 2 -->
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-6 py-4 text-center text-gray-500">2</td>
+                                <td class="px-6 py-4 font-medium text-gray-800">广东某某物流封装厂</td>
+                                <td class="px-6 py-4">刘总</td>
+                                <td class="px-6 py-4 font-mono">13912345678</td>
+                                <td class="px-6 py-4">liu.zong@mmwuliu.cn</td>
+                                <td class="px-6 py-4 text-gray-500">2026-06-05 09:15</td>
+                                <td class="px-6 py-4">李采购</td>
+                                <td class="px-6 py-4 text-center space-x-3">
+                                    <button class="text-primary hover:text-blue-700 font-medium" onclick="openModal('edit')"><i class="fas fa-edit"></i> 编辑</button>
+                                    <button class="text-red-500 hover:text-red-700 font-medium" onclick="confirmDelete()"><i class="fas fa-trash-alt"></i> 删除</button>
+                                </td>
+                            </tr>
+
+                            <!-- Row 3 -->
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-6 py-4 text-center text-gray-500">3</td>
+                                <td class="px-6 py-4 font-medium text-gray-800">北京华达科技供货商</td>
+                                <td class="px-6 py-4">王经理</td>
+                                <td class="px-6 py-4 font-mono">13566668888</td>
+                                <td class="px-6 py-4 text-gray-400">-</td>
+                                <td class="px-6 py-4 text-gray-500">2026-06-01 11:20</td>
+                                <td class="px-6 py-4">系统管理员</td>
+                                <td class="px-6 py-4 text-center space-x-3">
+                                    <button class="text-primary hover:text-blue-700 font-medium" onclick="openModal('edit')"><i class="fas fa-edit"></i> 编辑</button>
+                                    <button class="text-red-500 hover:text-red-700 font-medium" onclick="confirmDelete()"><i class="fas fa-trash-alt"></i> 删除</button>
+                                </td>
+                            </tr>
+
+                            <!-- Row 4 -->
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-6 py-4 text-center text-gray-500">4</td>
+                                <td class="px-6 py-4 font-medium text-gray-800">广州明月包装厂</td>
+                                <td class="px-6 py-4">陈会计</td>
+                                <td class="px-6 py-4 font-mono">13700001111</td>
+                                <td class="px-6 py-4">caiwu@mingyuebz.com</td>
+                                <td class="px-6 py-4 text-gray-500">2026-05-20 16:45</td>
+                                <td class="px-6 py-4">王财务</td>
+                                <td class="px-6 py-4 text-center space-x-3">
+                                    <button class="text-primary hover:text-blue-700 font-medium" onclick="openModal('edit')"><i class="fas fa-edit"></i> 编辑</button>
+                                    <button class="text-red-500 hover:text-red-700 font-medium" onclick="confirmDelete()"><i class="fas fa-trash-alt"></i> 删除</button>
+                                </td>
+                            </tr>
+
+                            <!-- Row 5 -->
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-6 py-4 text-center text-gray-500">5</td>
+                                <td class="px-6 py-4 font-medium text-gray-800">东莞市力创五金</td>
+                                <td class="px-6 py-4">黄小明</td>
+                                <td class="px-6 py-4 font-mono">18655554444</td>
+                                <td class="px-6 py-4 text-gray-400">-</td>
+                                <td class="px-6 py-4 text-gray-500">2026-05-18 10:30</td>
+                                <td class="px-6 py-4">张礼玲</td>
+                                <td class="px-6 py-4 text-center space-x-3">
+                                    <button class="text-primary hover:text-blue-700 font-medium" onclick="openModal('edit')"><i class="fas fa-edit"></i> 编辑</button>
+                                    <button class="text-red-500 hover:text-red-700 font-medium" onclick="confirmDelete()"><i class="fas fa-trash-alt"></i> 删除</button>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div class="bg-white px-4 py-3 border-t border-gray-200 flex items-center justify-between sm:px-6">
+                    <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                        <div>
+                            <p class="text-sm text-gray-700">
+                                显示第 <span class="font-medium">1</span> 到 <span class="font-medium">5</span> 条记录，共 <span class="font-medium">5</span> 条
+                            </p>
+                        </div>
+                        <div>
+                            <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                                <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-700">
+                                    <span class="sr-only">上一页</span>
+                                    <i class="fas fa-chevron-left"></i>
+                                </a>
+                                <a href="#" aria-current="page" class="z-10 bg-blue-50 border-primary text-primary relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                                    1
+                                </a>
+                                <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-700">
+                                    <span class="sr-only">下一页</span>
+                                    <i class="fas fa-chevron-right"></i>
+                                </a>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            
+        </main>
+    </div>
+</div>
+
+<!-- Add/Edit Modal (Hidden by default) -->
+<div id="config-modal" class="fixed inset-0 z-50 hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+        
+        <!-- Background overlay -->
+        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true" onclick="closeModal()"></div>
+
+        <!-- This element is to trick the browser into centering the modal contents. -->
+        <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+        <!-- Modal panel -->
+        <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full">
+            <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                <div class="sm:flex sm:items-start">
+                    <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+                        <h3 class="text-lg leading-6 font-medium text-gray-900 mb-5 border-b pb-3" id="modal-title">
+                            维护供应商签署配置
+                        </h3>
+                        <div class="mt-2 space-y-4">
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">
+                                    <span class="text-red-500 mr-1">*</span>供应商名称
+                                </label>
+                                <input type="text" id="modal-supplier-name" placeholder="请输入系统登记的供应商全称" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary">
+                                <p class="text-xs text-gray-400 mt-1">需与金蝶/携客云中登记的主体名称完全一致。</p>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">
+                                    <span class="text-red-500 mr-1">*</span>签署人
+                                </label>
+                                <input type="text" id="modal-contact-name" placeholder="请输入负责用印/签署的人员姓名" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">
+                                    <span class="text-red-500 mr-1">*</span>联系电话
+                                </label>
+                                <input type="text" id="modal-contact-phone" placeholder="请输入11位手机号码" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary">
+                                <p class="text-xs text-gray-400 mt-1">e签宝将向此号码发送签署通知及验证码短信。</p>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">邮箱 (选填)</label>
+                                <input type="email" id="modal-email" placeholder="请输入签署人电子邮箱" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse border-t border-gray-200">
+                <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-primary text-base font-medium text-white hover:bg-blue-600 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm" onclick="saveConfig()">
+                    保存配置
+                </button>
+                <button type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm" onclick="closeModal()">
+                    取消
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openModal(action) {
+        document.getElementById('config-modal').classList.remove('hidden');
+        if (action === 'edit') {
+            document.getElementById('modal-title').innerText = '编辑供应商签署配置';
+            // Simulate filling data
+            document.getElementById('modal-supplier-name').value = '深圳市创达鑫电子有限公司';
+            document.getElementById('modal-contact-name').value = '张伟';
+            document.getElementById('modal-contact-phone').value = '13800138000';
+            document.getElementById('modal-email').value = 'zhangwei@chuangdaxin.com';
+        } else {
+            document.getElementById('modal-title').innerText = '新增供应商签署配置';
+            document.getElementById('modal-supplier-name').value = '';
+            document.getElementById('modal-contact-name').value = '';
+            document.getElementById('modal-contact-phone').value = '';
+            document.getElementById('modal-email').value = '';
+        }
+    }
+
+    function closeModal() {
+        document.getElementById('config-modal').classList.add('hidden');
+    }
+
+    function saveConfig() {
+        alert('配置保存成功！');
+        closeModal();
+    }
+
+    function confirmDelete() {
+        if(confirm('确定要删除此供应商签署配置吗？删除后对应单据将拦截自动签署。')) {
+            alert('删除成功！');
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>对账单签署管理 - 交付系统</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1890ff',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-100 font-sans antialiased text-gray-800">
+
+<!-- Layout -->
+<div class="flex h-screen overflow-hidden">
+    
+    <!-- Sidebar -->
+    <aside class="w-64 bg-gray-900 text-white flex flex-col">
+        <div class="h-16 flex items-center justify-center border-b border-gray-800 text-xl font-bold tracking-widest">
+            交付系统
+        </div>
+        <nav class="flex-1 overflow-y-auto py-4">
+            <ul class="space-y-1">
+                <li>
+                    <a href="purchase_order_prototype.html" class="flex items-center px-6 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors">
+                        <i class="fas fa-file-contract mr-3 w-5 text-center"></i>
+                        采购单签署管理
+                    </a>
+                </li>
+                <li>
+                    <a href="statement_order_prototype.html" class="flex items-center px-6 py-3 bg-primary text-white hover:bg-blue-600 transition-colors">
+                        <i class="fas fa-file-invoice-dollar mr-3 w-5 text-center"></i>
+                        对账单签署管理
+                    </a>
+                </li>
+                <li>
+                    <a href="supplier_config_prototype.html" class="flex items-center px-6 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors">
+                        <i class="fas fa-users-cog mr-3 w-5 text-center"></i>
+                        供应商签署配置
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col overflow-hidden">
+        
+        <!-- Top Navbar -->
+        <header class="h-16 bg-white shadow-sm flex items-center justify-between px-6 z-10">
+            <h1 class="text-lg font-medium text-gray-800">对账单签署管理</h1>
+            <div class="flex items-center space-x-4">
+                <span class="text-sm text-gray-500">欢迎您，财务员</span>
+                <img src="https://ui-avatars.com/api/?name=Finance&background=1890ff&color=fff" alt="Avatar" class="w-8 h-8 rounded-full">
+            </div>
+        </header>
+
+        <!-- Content Area -->
+        <main class="flex-1 overflow-y-auto p-6">
+            
+            <!-- Search Filter Card -->
+            <div class="bg-white rounded-lg shadow-sm p-5 mb-6">
+                <form class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                    
+                    <div class="flex flex-col">
+                        <label class="text-sm text-gray-600 mb-1">单据编号</label>
+                        <input type="text" placeholder="请输入单据编号" class="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary">
+                    </div>
+                    
+                    <div class="flex flex-col">
+                        <label class="text-sm text-gray-600 mb-1">供应商名称</label>
+                        <input type="text" placeholder="请输入关键字" class="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary">
+                    </div>
+
+                    <div class="flex flex-col">
+                        <label class="text-sm text-gray-600 mb-1">上游单据状态</label>
+                        <select class="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary">
+                            <option value="">全部</option>
+                            <option value="1">已确认(正常)</option>
+                            <option value="2">取消确认/已修改(异常)</option>
+                        </select>
+                    </div>
+
+                    <div class="flex flex-col">
+                        <label class="text-sm text-gray-600 mb-1">签署状态</label>
+                        <select class="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary">
+                            <option value="">全部</option>
+                            <option value="1">待发起</option>
+                            <option value="2">签署中</option>
+                            <option value="3">已签署</option>
+                            <option value="4">拒签</option>
+                            <option value="5">已作废</option>
+                        </select>
+                    </div>
+                    
+                    <div class="flex flex-col xl:col-span-2">
+                        <label class="text-sm text-gray-600 mb-1">发起日期</label>
+                        <div class="flex items-center space-x-2">
+                            <input type="date" class="w-full border border-gray-300 rounded-md px-2 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary">
+                            <span class="text-gray-400">-</span>
+                            <input type="date" class="w-full border border-gray-300 rounded-md px-2 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary">
+                        </div>
+                    </div>
+
+                    <div class="md:col-span-3 lg:col-span-4 xl:col-span-5 flex justify-end space-x-3 mt-2">
+                        <button type="button" class="px-4 py-2 border border-gray-300 rounded-md text-sm text-gray-600 hover:bg-gray-50 transition-colors">重置</button>
+                        <button type="button" class="px-4 py-2 bg-primary text-white rounded-md text-sm hover:bg-blue-600 transition-colors shadow-sm">
+                            <i class="fas fa-search mr-1"></i> 查询
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Toolbar -->
+            <div class="flex justify-between items-center mb-4">
+                <div class="space-x-2">
+                    <button class="px-3 py-1.5 bg-green-600 text-white rounded-md text-sm hover:bg-green-700 transition-colors shadow-sm" onclick="alert('触发拉取携客云接口')">
+                        <i class="fas fa-sync-alt mr-1"></i> 手动拉取最新单据
+                    </button>
+                </div>
+                <div class="text-sm text-gray-500">
+                    共检索到 <span class="font-bold text-primary">6</span> 条记录
+                </div>
+            </div>
+
+            <!-- Data Table Card -->
+            <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200 text-sm text-left">
+                        <thead class="bg-gray-50 text-gray-600 font-medium">
+                            <tr>
+                                <th class="px-6 py-4">单据编号</th>
+                                <th class="px-6 py-4">供应商名称</th>
+                                <th class="px-6 py-4 text-right">对账含税金额 (元)</th>
+                                <th class="px-6 py-4">结算员</th>
+                                <th class="px-6 py-4">上游单据状态</th>
+                                <th class="px-6 py-4">签署状态</th>
+                                <th class="px-6 py-4 text-center">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 bg-white">
+                            <!-- Row 1: 签署中 (系统自动发起) -->
+                            <tr class="hover:bg-blue-50 transition-colors">
+                                <td class="px-6 py-4 text-primary font-medium cursor-pointer hover:underline"><a href="javascript:void(0)" onclick="alert('跳转至携客云对账单详情页: 5217779570351243')">5217779570351243</a></td>
+                                <td class="px-6 py-4">深圳市创达鑫电子有限公司</td>
+                                <td class="px-6 py-4 text-right font-mono">345,293.92</td>
+                                <td class="px-6 py-4">张礼玲</td>
+                                <td class="px-6 py-4 text-gray-600">
+                                    <span class="flex items-center"><span class="w-2 h-2 rounded-full bg-green-500 mr-2"></span>携客云:已确认</span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                        <i class="fas fa-spinner fa-spin mr-1"></i> 签署中
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 text-center space-x-2">
+                                    <button class="text-primary hover:text-blue-700 font-medium" onclick="alert('签署链接已复制到剪贴板：https://esign.com/sign/DZ12345')">复制签署链接</button>
+                                    <span class="text-gray-300">|</span>
+                                    <button class="text-gray-600 hover:text-gray-900">同步状态</button>
+                                </td>
+                            </tr>
+                            
+                            <!-- Row 2: 配置异常 / 待发起 (拦截) -->
+                            <tr class="hover:bg-red-50 transition-colors">
+                                <td class="px-6 py-4 text-primary font-medium cursor-pointer hover:underline"><a href="javascript:void(0)" onclick="alert('跳转至携客云对账单详情页: 5217779570351244')">5217779570351244</a></td>
+                                <td class="px-6 py-4 text-red-600" title="供应商在系统中未维护签署人配置">
+                                    <i class="fas fa-exclamation-circle mr-1"></i> 未知科技(未配置)
+                                </td>
+                                <td class="px-6 py-4 text-right font-mono">15,880.00</td>
+                                <td class="px-6 py-4">张礼玲</td>
+                                <td class="px-6 py-4 text-gray-600">
+                                    <span class="flex items-center"><span class="w-2 h-2 rounded-full bg-green-500 mr-2"></span>携客云:已确认</span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="flex flex-col space-y-1">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 w-max">
+                                            待发起
+                                        </span>
+                                        <span class="text-xs text-red-500 flex items-center" title="配置缺失，系统已拦截自动发起，需人工介入">
+                                            <i class="fas fa-exclamation-triangle mr-1"></i>配置缺失
+                                        </span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 text-center space-x-2">
+                                    <button class="text-primary hover:text-blue-700 font-medium" onclick="window.location.href='supplier_config_prototype.html'">去补充配置</button>
+                                </td>
+                            </tr>
+
+                            <!-- Row 3: 签署中，但上游状态变为异常(取消确认) -->
+                            <tr class="hover:bg-red-50 transition-colors bg-red-50/30">
+                                <td class="px-6 py-4 text-primary font-medium cursor-pointer hover:underline"><a href="javascript:void(0)" onclick="alert('跳转至携客云对账单详情页: 5217779570351245')">5217779570351245</a></td>
+                                <td class="px-6 py-4">广州明月包装厂</td>
+                                <td class="px-6 py-4 text-right font-mono">4,550.00</td>
+                                <td class="px-6 py-4">王财务</td>
+                                <td class="px-6 py-4 text-red-600 font-medium" title="携客云该单据已被取消确认或修改金额，请作废当前签署流程">
+                                    <span class="flex items-center"><i class="fas fa-exclamation-triangle mr-1"></i> 携客云:取消确认</span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                        <i class="fas fa-spinner fa-spin mr-1"></i> 签署中
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 text-center space-x-2">
+                                    <button class="text-red-600 hover:text-red-800 font-bold" onclick="alert('即将调用作废接口中止签署')">强制撤回</button>
+                                    <span class="text-gray-300">|</span>
+                                    <button class="text-primary hover:text-blue-700" onclick="alert('签署链接已复制到剪贴板：https://esign.com/sign/DZ12347')">复制签署链接</button>
+                                </td>
+                            </tr>
+
+                            <!-- Row 4: 已签署 -->
+                            <tr class="hover:bg-blue-50 transition-colors">
+                                <td class="px-6 py-4 text-primary font-medium cursor-pointer hover:underline"><a href="javascript:void(0)" onclick="alert('跳转至携客云对账单详情页: 5217779570351246')">5217779570351246</a></td>
+                                <td class="px-6 py-4">东莞市力创五金</td>
+                                <td class="px-6 py-4 text-right font-mono">23,100.50</td>
+                                <td class="px-6 py-4">张礼玲</td>
+                                <td class="px-6 py-4 text-gray-600">
+                                    <span class="flex items-center"><span class="w-2 h-2 rounded-full bg-green-500 mr-2"></span>携客云:已确认</span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                        已签署
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 text-center space-x-2">
+                                    <button class="text-primary hover:text-blue-700 font-medium" onclick="alert('签署链接已复制到剪贴板：https://esign.com/sign/DZ12348')">复制签署链接</button>
+                                    <span class="text-gray-300">|</span>
+                                    <button class="text-gray-600 hover:text-gray-900">下载对账单</button>
+                                </td>
+                            </tr>
+
+                            <!-- Row 5: 拒签 -->
+                            <tr class="hover:bg-blue-50 transition-colors">
+                                <td class="px-6 py-4 text-primary font-medium cursor-pointer hover:underline"><a href="javascript:void(0)" onclick="alert('跳转至携客云对账单详情页: 5217779570351247')">5217779570351247</a></td>
+                                <td class="px-6 py-4">北京华达科技供货商</td>
+                                <td class="px-6 py-4 text-right font-mono">19,990.00</td>
+                                <td class="px-6 py-4">王财务</td>
+                                <td class="px-6 py-4 text-gray-600">
+                                    <span class="flex items-center"><span class="w-2 h-2 rounded-full bg-green-500 mr-2"></span>携客云:已确认</span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800" title="供应商反馈费用或退货未扣减，拒绝签署">
+                                        拒签
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 text-center space-x-2">
+                                    <button class="text-primary hover:text-blue-700 font-medium" onclick="alert('签署链接已复制到剪贴板：https://esign.com/sign/DZ12349')">复制签署链接</button>
+                                    <span class="text-gray-300">|</span>
+                                    <button class="text-gray-600 hover:text-gray-900">重新发起签署</button>
+                                </td>
+                            </tr>
+
+                            <!-- Row 6: 待发起，但上游被取消确认 -->
+                            <tr class="hover:bg-red-50 transition-colors">
+                                <td class="px-6 py-4 text-primary font-medium cursor-pointer hover:underline"><a href="javascript:void(0)" onclick="alert('跳转至携客云对账单详情页: 5217779570351248')">5217779570351248</a></td>
+                                <td class="px-6 py-4">上海中芯微电子</td>
+                                <td class="px-6 py-4 text-right font-mono">145,000.00</td>
+                                <td class="px-6 py-4">张礼玲</td>
+                                <td class="px-6 py-4 text-red-600 font-medium" title="该单据已被携客云取消确认，请重新拉取最新数据">
+                                    <span class="flex items-center"><i class="fas fa-exclamation-triangle mr-1"></i> 携客云:取消确认</span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="flex flex-col space-y-1">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 w-max">
+                                            待发起
+                                        </span>
+                                        <span class="text-xs text-red-500 flex items-center" title="上游状态非“已确认”，系统已拦截">
+                                            <i class="fas fa-exclamation-triangle mr-1"></i>上游异常
+                                        </span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 text-center space-x-2">
+                                    <button class="text-primary hover:text-blue-700 font-medium" onclick="alert('正在废弃当前单据并拉取最新...')">重新拉取</button>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div class="bg-white px-4 py-3 border-t border-gray-200 flex items-center justify-between sm:px-6">
+                    <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                        <div>
+                            <p class="text-sm text-gray-700">
+                                显示第 <span class="font-medium">1</span> 到 <span class="font-medium">6</span> 条记录，共 <span class="font-medium">6</span> 条
+                            </p>
+                        </div>
+                        <div>
+                            <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                                <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                    <span class="sr-only">上一页</span>
+                                    <i class="fas fa-chevron-left"></i>
+                                </a>
+                                <a href="#" aria-current="page" class="z-10 bg-blue-50 border-primary text-primary relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                                    1
+                                </a>
+                                <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                    <span class="sr-only">下一页</span>
+                                    <i class="fas fa-chevron-right"></i>
+                                </a>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            
+        </main>
+    </div>
+</div>
+
+</body>
+</html>
