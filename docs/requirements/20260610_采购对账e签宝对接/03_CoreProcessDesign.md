@@ -17,12 +17,14 @@ flowchart TD
     A[拉取/同步单据数据]
     B[校验数据与组装 PDF 文件]
     C{上游状态满足 \n 且 配置完善?}
-    D[匹配默认内部组织\n与供应商签署人]
+    D[固定我方签署人\n匹配供应商签署人]
     F[自动调用 e签宝API创建签署任务\n更新状态: 签署中]
     Err[标记状态: 配置异常/待发起\n(需人工介入补充)]
     E[人工补充配置/确认无误后\n手动点击 发起签署]
     H[接收 Webhook 回调或主动查询]
     I[更新状态: 已签署/已拒签\n归档生效 PDF]
+    J[回写携客云签章状态为完成]
+    Revoke[监测到上游反审自动调用作废]
   end
 
   subgraph esign ["e签宝平台"]
@@ -48,6 +50,9 @@ flowchart TD
   
   G3 -- 触发 Webhook --> H
   H --> I
+  I --> J
+  K -.->|状态突变:反审核| Revoke
+  X -.->|状态突变:取消确认| Revoke
 ```
 
 ## 2. 系统交互时序图 (System Sequence Diagram)
@@ -69,10 +74,10 @@ sequenceDiagram
   Delivery->>Delivery: 读取系统配置 (组织、供应商联系人)
   
   alt 配置完善且上游状态正常
-    Delivery->>Delivery: 自动匹配签署人并组装参数
+    Delivery->>Delivery: 固定我方签署人匹配供应商签署人
     Delivery->>eSign: 1. 自动上传文件 (PDF)
     eSign-->>Delivery: 返回 fileId
-    Delivery->>eSign: 2. 自动发起签署任务
+    Delivery->>eSign: 2. 自动发起签署任务(无序签)
     eSign-->>Delivery: 返回 taskId (流程ID)
     Delivery->>Delivery: 更新单据状态为「签署中」
   else 配置异常或缺失
@@ -90,9 +95,16 @@ sequenceDiagram
     eSign-->>Delivery: Webhook 回调 (状态: 签署完成)
     Delivery->>eSign: 下载已盖章生效文件
     Delivery->>Delivery: 归档文件，更新状态为「已签署」
+    Delivery->>Upstream: 回写签章状态为「完成」
   else 拒签/作废
     eSign-->>Delivery: Webhook 回调 (状态: 拒签/作废)
     Delivery->>Delivery: 更新状态为「拒签/作废」
+  end
+
+  opt 签署中发生上游状态突变(如反审)
+    Upstream-->>Delivery: 状态更新通知 (或拉取时发现)
+    Delivery->>eSign: 自动调用撤销任务API
+    Delivery->>Delivery: 更新本地状态为「已作废」
   end
 ```
 
