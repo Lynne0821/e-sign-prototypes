@@ -103,7 +103,7 @@
                     </div>
                     
                     <div class="flex flex-col xl:col-span-2">
-                        <label class="text-sm text-gray-600 mb-1">发起日期</label>
+                        <label class="text-sm text-gray-600 mb-1">采购日期</label>
                         <div class="flex items-center space-x-2">
                             <input type="date" class="w-full border border-gray-300 rounded-md px-2 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary">
                             <span class="text-gray-400">-</span>
@@ -142,6 +142,7 @@
                                 <th class="px-6 py-4">供应商名称</th>
                                 <th class="px-6 py-4 text-right">价税合计 (元)</th>
                                 <th class="px-6 py-4">采购员</th>
+                                <th class="px-6 py-4">采购日期</th>
                                 <th class="px-6 py-4">上游单据状态</th>
                                 <th class="px-6 py-4">签署状态</th>
                                 <th class="px-6 py-4 text-center">操作</th>
@@ -154,6 +155,7 @@
                                 <td class="px-6 py-4">深圳市创达鑫电子有限公司</td>
                                 <td class="px-6 py-4 text-right font-mono">3,089.36</td>
                                 <td class="px-6 py-4">李采购</td>
+                                <td class="px-6 py-4 font-mono text-gray-500">2026-06-05</td>
                                 <td class="px-6 py-4 text-gray-600">
                                     <span class="flex items-center"><span class="w-2 h-2 rounded-full bg-green-500 mr-2"></span>金蝶:已审核</span>
                                 </td>
@@ -165,7 +167,7 @@
                                 <td class="px-6 py-4 text-center space-x-2">
                                     <button class="text-primary hover:text-blue-700 font-medium" onclick="alert('签署链接已复制到剪贴板：https://esign.com/sign/QY12345')">复制签署链接</button>
                                     <span class="text-gray-300">|</span>
-                                    <button class="text-gray-600 hover:text-gray-900">同步状态</button>
+                                    <button class="text-red-600 hover:text-red-800 font-medium" onclick="alert('即将调用作废接口中止签署')">强制撤回</button>
                                 </td>
                             </tr>
                             
@@ -177,6 +179,7 @@
                                 </td>
                                 <td class="px-6 py-4 text-right font-mono">1,142.64</td>
                                 <td class="px-6 py-4">李采购</td>
+                                <td class="px-6 py-4 font-mono text-gray-500">2026-06-08</td>
                                 <td class="px-6 py-4 text-gray-600">
                                     <span class="flex items-center"><span class="w-2 h-2 rounded-full bg-green-500 mr-2"></span>金蝶:已审核</span>
                                 </td>
@@ -201,6 +204,7 @@
                                 <td class="px-6 py-4">深圳市千岩科技有限公司</td>
                                 <td class="px-6 py-4 text-right font-mono">345,308.86</td>
                                 <td class="px-6 py-4">张三</td>
+                                <td class="px-6 py-4 font-mono text-gray-500">2026-06-01</td>
                                 <td class="px-6 py-4 text-red-600 font-medium" title="金蝶系统该单据被反审核或修改，请作废当前签署流程">
                                     <span class="flex items-center"><i class="fas fa-exclamation-triangle mr-1"></i> 金蝶:反审核</span>
                                 </td>
@@ -210,9 +214,9 @@
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 text-center space-x-2">
-                                    <button class="text-red-600 hover:text-red-800 font-bold" onclick="alert('即将调用作废接口中止签署')">强制撤回</button>
+                                    <button class="text-primary hover:text-blue-700 font-medium" onclick="alert('签署链接已复制到剪贴板：https://esign.com/sign/QY12345')">复制签署链接</button>
                                     <span class="text-gray-300">|</span>
-                                    <button class="text-primary hover:text-blue-700">预览PDF</button>
+                                    <button class="text-red-600 hover:text-red-800 font-medium" onclick="alert('即将调用作废接口中止签署')">强制撤回</button>
                                 </td>
                             </tr>
 
@@ -222,6 +226,7 @@
                                 <td class="px-6 py-4">广东某某物流封装厂</td>
                                 <td class="px-6 py-4 text-right font-mono">12,500.00</td>
                                 <td class="px-6 py-4">李采购</td>
+                                <td class="px-6 py-4 font-mono text-gray-500">2026-05-28</td>
                                 <td class="px-6 py-4 text-gray-600">
                                     <span class="flex items-center"><span class="w-2 h-2 rounded-full bg-green-500 mr-2"></span>金蝶:已审核</span>
                                 </td>
@@ -231,9 +236,7 @@
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 text-center space-x-2">
-                                    <button class="text-primary hover:text-blue-700 font-medium" onclick="alert('签署链接已复制到剪贴板：https://esign.com/sign/QY12345')">复制签署链接</button>
-                                    <span class="text-gray-300">|</span>
-                                    <button class="text-gray-600 hover:text-gray-900">下载合同</button>
+                                    <button class="text-primary hover:text-blue-700 font-medium" onclick="alert('开始下载生效的签署文件')">下载签署文件</button>
                                 </td>
                             </tr>
 
@@ -243,6 +246,7 @@
                                 <td class="px-6 py-4">北京华达科技供货商</td>
                                 <td class="px-6 py-4 text-right font-mono">8,990.00</td>
                                 <td class="px-6 py-4">王五</td>
+                                <td class="px-6 py-4 font-mono text-gray-500">2026-05-29</td>
                                 <td class="px-6 py-4 text-gray-600">
                                     <span class="flex items-center"><span class="w-2 h-2 rounded-full bg-green-500 mr-2"></span>金蝶:已审核</span>
                                 </td>
@@ -252,9 +256,7 @@
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 text-center space-x-2">
-                                    <button class="text-primary hover:text-blue-700 font-medium" onclick="alert('签署链接已复制到剪贴板：https://esign.com/sign/QY12345')">复制签署链接</button>
-                                    <span class="text-gray-300">|</span>
-                                    <button class="text-gray-600 hover:text-gray-900">重新发起签署</button>
+                                    <button class="text-primary hover:text-blue-700 font-medium" onclick="alert('即将重新发起签署流程')">重新发起签署</button>
                                 </td>
                             </tr>
 
@@ -264,6 +266,7 @@
                                 <td class="px-6 py-4">上海中芯微电子</td>
                                 <td class="px-6 py-4 text-right font-mono">45,000.00</td>
                                 <td class="px-6 py-4">李采购</td>
+                                <td class="px-6 py-4 font-mono text-gray-500">2026-06-09</td>
                                 <td class="px-6 py-4 text-red-600 font-medium" title="金蝶系统该单据被反审核或修改，请重新拉取最新数据">
                                     <span class="flex items-center"><i class="fas fa-exclamation-triangle mr-1"></i> 金蝶:反审核</span>
                                 </td>
@@ -278,9 +281,7 @@
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 text-center space-x-2">
-                                    <button class="text-gray-400 cursor-not-allowed font-medium" disabled title="上游状态非“已审核”，无法发起签署">发起签署</button>
-                                    <span class="text-gray-300">|</span>
-                                    <button class="text-primary hover:text-blue-700 font-medium">重新拉取</button>
+                                    <button class="text-primary hover:text-blue-700 font-medium" onclick="alert('即将重新调取金蝶数据')">重新拉取</button>
                                 </td>
                             </tr>
 
